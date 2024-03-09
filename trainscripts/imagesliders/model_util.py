@@ -179,14 +179,19 @@ def load_diffusers_model_xl(
     vae = AutoencoderKL.from_pretrained(pretrained_model_name_or_path, subfolder="vae")
     return tokenizers, text_encoders, unet, vae
 
-
+import os
 def load_checkpoint_model_xl(
     checkpoint_path: str,
     weight_dtype: torch.dtype = torch.float32,
 ) -> tuple[list[CLIPTokenizer], list[SDXL_TEXT_ENCODER_TYPE], UNet2DConditionModel,]:
+    original_config_file = os.path.join(
+        os.path.dirname(__file__), "..","..","model_config_file","sd_xl_base.yaml",
+    )
+
     pipe = StableDiffusionXLPipeline.from_single_file(
         checkpoint_path,
         torch_dtype=weight_dtype,
+        original_config_file=original_config_file,
         cache_dir=DIFFUSERS_CACHE_DIR,
     )
 

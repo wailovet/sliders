@@ -280,9 +280,13 @@ def train(
                     ),
                     guidance_scale=1,
                 ).to(device, dtype=torch.float32)
-            except:
+            except Exception as e:
                 flush()
+
+
                 print(f'Error Occured!: {np.array(img1).shape} {np.array(img2).shape}')
+
+                raise e
                 continue
             # with network: の外では空のLoRAのみが有効になる
             
@@ -541,8 +545,15 @@ if __name__ == "__main__":
         default = '-2, -1, 1, 2',
         help="scales for different attribute-scaled images",
     )
+    parser.add_argument(
+        "--disable_cudnn",
+        action="store_true",
+        help="Disable cudnn for reproducibility.",
+    )
     
     
     args = parser.parse_args()
 
+    if args.disable_cudnn:
+        torch.backends.cudnn.enabled = False
     main(args)

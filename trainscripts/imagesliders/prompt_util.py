@@ -149,6 +149,22 @@ class PromptEmbedsPair:
 
 
 def load_prompts_from_yaml(path, attributes = []):
+    if not Path(path).exists() or not Path(path).is_file():
+        print("warning: prompts file not found, using default prompts")
+        return [
+            PromptSettings(
+                target="",
+                positive="",
+                unconditional="",
+                neutral="",
+                action="erase",
+                guidance_scale=4,
+                resolution=512,
+                dynamic_resolution=True,
+                batch_size=1,
+                dynamic_crops=False,
+            )
+        ]
     with open(path, "r") as f:
         prompts = yaml.safe_load(f)
     print(prompts)    
@@ -170,5 +186,4 @@ def load_prompts_from_yaml(path, attributes = []):
     print(newprompts)
     print(len(prompts), len(newprompts))
     prompt_settings = [PromptSettings(**prompt) for prompt in newprompts]
-
     return prompt_settings
