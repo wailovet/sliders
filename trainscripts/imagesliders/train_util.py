@@ -209,6 +209,8 @@ def get_noisy_image(
     
     **kwargs,
 ):
+    if img.mode != "RGB":
+        img = img.convert("RGB")
     # latents_steps = []
     vae_scale_factor = 2 ** (len(vae.config.block_out_channels) - 1)
     image_processor = VaeImageProcessor(vae_scale_factor=vae_scale_factor)
