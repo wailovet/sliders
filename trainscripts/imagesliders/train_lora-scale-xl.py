@@ -220,6 +220,12 @@ def train(
             img1 = Image.open(f'{folder_main}/{folder1}/{ims[random_sampler]}').resize((512,512))
             img2 = Image.open(f'{folder_main}/{folder2}/{ims[random_sampler]}').resize((512,512))
             
+            # if RGBA, convert to RGB
+            if img1.mode == 'RGBA':
+                img1 = img1.convert('RGB')
+            if img2.mode == 'RGBA':
+                img2 = img2.convert('RGB')
+
             seed = random.randint(0,2*15)
             
             generator = torch.manual_seed(seed)
