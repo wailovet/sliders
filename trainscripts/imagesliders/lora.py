@@ -104,7 +104,7 @@ class LoRAModule(nn.Module):
         self.org_module.forward = self.forward
         del self.org_module
 
-    def forward(self, x, args, **kwargs):
+    def forward(self, x, *args, **kwargs):
         # print(f"args:", args)
         # print(f"kwargs:", kwargs)
         return (
